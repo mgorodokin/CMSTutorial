@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path')
-const hbs = require('express-handlebars')
+const path = require('path');
+const hbs = require('express-handlebars');
+const {mongoDbUrl, PORT} = require('./config/configuration');
 
 const app = express();
 
 /* Configure Mongoose to Connect MongoDB */
-mongoose.connect('mongodb://localhost:27017/CMSTutorial', { useNewUrlParser: true })
+mongoose.connect(mongoDbUrl, { useNewUrlParser: true })
     .then(response => {
         console.log("MongoDB Connected Successfully.", { useNewUrlParser: true });
     }) .catch(err => {
@@ -23,11 +24,9 @@ app.engine('handlebars', hbs({defaultLayout: 'default'}));
 app.set('view engine', 'handlebars');
 
 /* Routes */
-app.use('/', (req, res) => {
-    res.send("Welcome to the CMS App", {useNewUrlParser: true });
-});
+const defaultRoutes = require('./routes/defaultRoutes');
+app.use('/', defaultRoutes);
 
-
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on port 3000`);
 })
