@@ -8,7 +8,9 @@ const hbs = require('express-handlebars');
 const {mongoDbUrl, PORT} = require('./config/configuration');
 const flash = require('connect-flash');
 const session = require('express-session');
+const {selectOption} = require('./config/customFunctions');
 const fileUpload = require('express-fileUpload');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -41,8 +43,11 @@ app.use(fileUpload({
   }));
 
 /* Setup View Engine To Use Handlebars */
-app.engine('handlebars', hbs({defaultLayout: 'default'}));
+app.engine('handlebars', hbs({defaultLayout: 'default', helpers: {select: selectOption}}));
 app.set('view engine', 'handlebars');
+
+/* Method Override Middleware */
+app.use(methodOverride('newMethod'));
 
 
 /* Routes */

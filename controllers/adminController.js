@@ -16,11 +16,13 @@ module.exports = {
     },
 
     submitPosts: (req, res) => {
-      console.log(req.body);
+      const commentsAllowed = req.body.allowComments ? true: false;
+
       const newPost = new Post({
         title: req.body.title,
         description: req.body.description,
-        status: req.body.status
+        status: req.body.status,
+        allowComments: commentsAllowed
       });
 
       console.log("JEREMY", newPost);
@@ -41,5 +43,14 @@ module.exports = {
       Post.findById(id).then(post => {
         res.render('admin/posts/edit', {post: post});
       }) 
+    },
+
+    deletePost: (req, res) => {
+
+      Post.findByIdAndDelete(req.params.id)
+          .then(deletedPost => {
+            req.flash('success-message', `The post ${deletedPost.title} has been deleted.`);
+            res.redirect('/admin/posts');
+          });
     }
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+const { deletePost } = require('../controllers/adminController');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 
@@ -23,6 +24,9 @@ router.route('/posts/create')
 
 router.route('/posts/edit/:id')
     .get(adminController.editPost);
+
+router.route('/posts/delete/:id')
+    .delete(adminController.deletePost);
 
     module.exports = router;
 

@@ -28,10 +28,18 @@ const PostSchema = new Schema({
         ref: 'category'
     },
 
-    comments: {
+    comments: [
+    {
         type: Schema.Types.ObjectId,
         ref: 'comment'
         }
+
+    ],
+
+    allowComments: {
+        type: Boolean,
+        default: false
+    }
 })
 
 
