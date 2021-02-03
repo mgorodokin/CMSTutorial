@@ -28,6 +28,11 @@ router.route('/posts/edit/:id')
 router.route('/posts/delete/:id')
     .delete(adminController.deletePost);
 
+/* Admin category routes */
+router.route('/category')
+    .get(adminController.getCategories)
+    .post(adminController.createCategories);
+
     module.exports = router;
 
 

@@ -1,6 +1,7 @@
 const { restart } = require("nodemon");
 
 const Post = require('../models/postModel').Post;
+const Category = require('../models/categoriesModel').Category;
 
 
 
@@ -35,6 +36,7 @@ module.exports = {
     },
 
     createPosts: (req, res) => {
+      
       res.render('admin/posts/create');
     },
 
@@ -52,5 +54,27 @@ module.exports = {
             req.flash('success-message', `The post ${deletedPost.title} has been deleted.`);
             res.redirect('/admin/posts');
           });
+    },
+
+    /* ALL CATEGORY METHODS */
+
+    getCategories: (req, res) => {
+      Category.find().then(cats => {
+        res.render('admin/category/index', {categories: cats})
+      });
+    },
+
+    createCategories: (req, res) => {
+      var categoryName = req.body.name;
+
+      if(categoryName) {
+        const newCategory = new Category({
+          title: categoryName
+        });
+
+        newCategory.save().then(category => {
+          res.status(200).json(category);
+        })
+      }
     }
 };
