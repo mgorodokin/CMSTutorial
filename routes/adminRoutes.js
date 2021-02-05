@@ -23,7 +23,8 @@ router.route('/posts/create')
     .post(adminController.submitPosts);
 
 router.route('/posts/edit/:id')
-    .get(adminController.editPost);
+    .get(adminController.editPost)
+    .put(adminController.editPostSubmit);
 
 router.route('/posts/delete/:id')
     .delete(adminController.deletePost);
@@ -32,6 +33,13 @@ router.route('/posts/delete/:id')
 router.route('/category')
     .get(adminController.getCategories)
     .post(adminController.createCategories);
+
+router.route('/category/edit/:id')
+    .get(adminController.editCategoriesGetRoute)
+    .post(adminController.editCategoriesPostRoute);
+
+router.route('/category/delete/:id')
+      .delete(adminController.deleteCategory);
 
     module.exports = router;
 

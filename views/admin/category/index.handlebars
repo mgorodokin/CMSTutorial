@@ -20,7 +20,7 @@
                         <td>{{title}}</td>
                         <td class="d-flex justify-content-center">
                             <a href="/admin/category/edit/{{_id}}" class="btn btn-sm btn-warning mr-2" role="button">Edit</a>
-                            <form action="/admin/category/{{_id}}?newMethod=DELETE" method="post">
+                            <form action="/admin/category/delete/{{_id}}?newMethod=DELETE" method="post">
                                 <button class="btn btn-sm btn-danger" type="submit">Delete</button>
                             </form>
                         </td>

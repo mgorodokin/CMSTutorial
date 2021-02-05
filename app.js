@@ -4,6 +4,7 @@ const {globalVariables} = require('./config/configuration')
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const _handlebars = require('handlebars');
 const hbs = require('express-handlebars');
 const {mongoDbUrl, PORT} = require('./config/configuration');
 const flash = require('connect-flash');
@@ -11,6 +12,7 @@ const session = require('express-session');
 const {selectOption} = require('./config/customFunctions');
 const fileUpload = require('express-fileUpload');
 const methodOverride = require('method-override');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 const app = express();
 
@@ -21,6 +23,8 @@ mongoose.connect(mongoDbUrl, { useNewUrlParser: true })
     }) .catch(err => {
         console.log("Database connection failed", err)
     });
+
+
 
 /* Configure express*/
 app.use(express.json());
@@ -43,7 +47,7 @@ app.use(fileUpload({
   }));
 
 /* Setup View Engine To Use Handlebars */
-app.engine('handlebars', hbs({defaultLayout: 'default', helpers: {select: selectOption}}));
+app.engine('handlebars', hbs( {defaultLayout: 'default', helpers: {select: selectOption}, handlebars: allowInsecurePrototypeAccess(_handlebars)}));
 app.set('view engine', 'handlebars');
 
 /* Method Override Middleware */
