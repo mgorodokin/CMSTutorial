@@ -2,7 +2,7 @@ const { restart } = require("nodemon");
 
 const Post = require('../models/postModel').Post;
 const Category = require('../models/categoriesModel').Category;
-
+const {isEmpty} = require('../config/customFunctions');
 
 
 module.exports = {
@@ -21,15 +21,28 @@ module.exports = {
     submitPosts: (req, res) => {
       const commentsAllowed = req.body.allowComments ? true: false;
 
+      /* check for any input file */
+      let filename = '';
+
+      if(!isEmpty(req.files)) {
+        let file = req.files.uploadedFile;
+        filename = file.name;
+        let uploadDir = './public/uploads/';
+
+        file.mv(uploadDir+filename, (err) => {
+          if(err)
+            throw err
+        });
+      }
+
       const newPost = new Post({
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
         allowComments: commentsAllowed,
-        category: req.body.category
+        category: req.body.category,
+        file: `/uploads/${filename}`
       });
-
-      console.log("JEREMY", newPost);
 
       newPost.save().then(post => {
         console.log(post);

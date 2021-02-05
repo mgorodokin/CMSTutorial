@@ -42,6 +42,7 @@ app.use(flash());
 
 app.use(globalVariables);
 
+/* file upload middleware */
 app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
   }));
